@@ -3,7 +3,7 @@
 [![PHP Version Require](https://poser.pugx.org/zentlix/knp-menu/require/php)](https://packagist.org/packages/zentlix/knp-menu)
 [![Latest Stable Version](https://poser.pugx.org/zentlix/knp-menu/v/stable)](https://packagist.org/packages/zentlix/knp-menu)
 [![phpunit](https://github.com/zentlix/knp-menu/actions/workflows/phpunit.yml/badge.svg)](https://github.com/zentlix/knp-menu/actions)
-[![psalm](https://github.com/zentlix/knp-menu/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/zentlix/knp-menu/actions)
+[![psalm](https://github.com/zentlix/knp-menu/actions/workflows/psalm.yml/badge.svg)](https://github.com/zentlix/knp-menu/actions)
 [![Codecov](https://codecov.io/gh/zentlix/knp-menu/branch/master/graph/badge.svg)](https://codecov.io/gh/zentlix/knp-menu)
 [![Total Downloads](https://poser.pugx.org/zentlix/knp-menu/downloads)](https://packagist.org/packages/zentlix/knp-menu)
 [![type-coverage](https://shepherd.dev/github/zentlix/knp-menu/coverage.svg)](https://shepherd.dev/github/zentlix/knp-menu)
