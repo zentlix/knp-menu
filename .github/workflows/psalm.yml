@@ -1,0 +1,14 @@
+on:
+    push:
+    pull_request:
+
+name: static analysis
+
+jobs:
+    psalm:
+        uses: spiral/gh-actions/.github/workflows/psalm.yml@master
+        with:
+            os: >-
+                ['ubuntu-latest']
+            php: >-
+                ['8.1']
