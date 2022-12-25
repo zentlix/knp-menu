@@ -32,6 +32,7 @@ final class KnpMenuBootloaderTest extends TestCase
     public function testFactoryShouldBeBoundAsSingleton(): void
     {
         $this->assertContainerBoundAsSingleton(FactoryInterface::class, MenuFactory::class);
+        $this->assertContainerBoundAsSingleton(MenuFactory::class, MenuFactory::class);
     }
 
     public function testMatcherShouldBeBoundAsSingleton(): void

@@ -18,6 +18,7 @@ use Spiral\Boot\DirectoriesInterface;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Core\Container;
 use Spiral\KnpMenu\Config\KnpMenuConfig;
+use Spiral\KnpMenu\Extension\RoutingExtension;
 use Spiral\KnpMenu\MenuInterface;
 use Spiral\KnpMenu\MenuRegistry;
 use Spiral\KnpMenu\Renderer\SpiralRenderer;
@@ -32,6 +33,7 @@ final class KnpMenuBootloader extends Bootloader
 
     protected const SINGLETONS = [
         FactoryInterface::class => MenuFactory::class,
+        MenuFactory::class => MenuFactory::class,
         MatcherInterface::class => Matcher::class,
         MenuProviderInterface::class => [self::class, 'initMenuProvider'],
         MenuRegistry::class => MenuProviderInterface::class,
@@ -50,13 +52,15 @@ final class KnpMenuBootloader extends Bootloader
         $this->initConfig();
     }
 
-    public function boot(ContainerInterface $container): void
+    public function boot(ContainerInterface $container, MenuFactory $factory): void
     {
         if (class_exists(TwigBootloader::class)) {
             $twig = $container->get(TwigBootloader::class);
 
             $twig->addExtension(MenuExtension::class);
         }
+
+        $factory->addExtension($container->get(RoutingExtension::class));
     }
 
     private function initConfig(): void
