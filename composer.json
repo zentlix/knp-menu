@@ -23,8 +23,7 @@
         "friendsofphp/php-cs-fixer": "^3.8",
         "spiral/testing": "^2.2.0",
         "vimeo/psalm": "^4.30",
-        "spiral/twig-bridge": "^2.0",
-        "twig/twig": "^3.3.3"
+        "spiral/twig-bridge": "^2.0"
     },
     "autoload": {
         "psr-4": {
