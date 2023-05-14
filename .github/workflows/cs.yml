@@ -4,11 +4,11 @@ on:
         branches:
             - '*.*'
 
-name: static analysis
+name: coding-standards
 
 jobs:
     psalm:
-        uses: spiral/gh-actions/.github/workflows/psalm.yml@master
+        uses: spiral/gh-actions/.github/workflows/cs.yml@master
         with:
             os: >-
                 ['ubuntu-latest']
