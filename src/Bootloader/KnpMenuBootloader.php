@@ -7,6 +7,7 @@ namespace Spiral\KnpMenu\Bootloader;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\Matcher\Matcher;
 use Knp\Menu\Matcher\MatcherInterface;
+use Knp\Menu\Matcher\Voter\VoterInterface;
 use Knp\Menu\MenuFactory;
 use Knp\Menu\Provider\MenuProviderInterface;
 use Knp\Menu\Renderer\PsrProvider;
@@ -17,8 +18,10 @@ use Spiral\Boot\Bootloader\Bootloader;
 use Spiral\Boot\DirectoriesInterface;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Core\Container;
+use Spiral\Core\Container\Autowire;
 use Spiral\KnpMenu\Config\KnpMenuConfig;
 use Spiral\KnpMenu\Extension\RoutingExtension;
+use Spiral\KnpMenu\Matcher\Voter\RouteVoter;
 use Spiral\KnpMenu\MenuInterface;
 use Spiral\KnpMenu\MenuRegistry;
 use Spiral\KnpMenu\Renderer\SpiralRenderer;
@@ -34,7 +37,7 @@ final class KnpMenuBootloader extends Bootloader
     protected const SINGLETONS = [
         FactoryInterface::class => MenuFactory::class,
         MenuFactory::class => MenuFactory::class,
-        MatcherInterface::class => Matcher::class,
+        MatcherInterface::class => [self::class, 'initMatcher'],
         MenuProviderInterface::class => [self::class, 'initMenuProvider'],
         MenuRegistry::class => MenuProviderInterface::class,
         RendererProviderInterface::class => [self::class, 'initRenderer'],
@@ -71,6 +74,9 @@ final class KnpMenuBootloader extends Bootloader
                 'template' => class_exists(TwigBootloader::class) ? 'knpMenu:knp_menu' : '',
                 'template_options' => [],
                 'menus' => [],
+                'voters' => [
+                    RouteVoter::class
+                ]
             ]
         );
     }
@@ -96,15 +102,34 @@ final class KnpMenuBootloader extends Bootloader
         $registry = new MenuRegistry();
 
         foreach ($config->getMenus() as $name => $menu) {
-            if (!$menu instanceof MenuInterface) {
-                $menu = $container->get($menu);
-            }
-
+            $menu = $this->wire($menu, $container);
             \assert($menu instanceof MenuInterface);
 
             $registry->add(array_is_list($config->getMenus()) ? $menu::class : $name, $menu);
         }
 
         return $registry;
+    }
+
+    private function initMatcher(KnpMenuConfig $config, Container $container): MatcherInterface
+    {
+        $voters = [];
+        foreach ($config->getVoters() as $voter) {
+            $voter = $this->wire($voter, $container);
+            \assert($voter instanceof VoterInterface);
+
+            $voters[] = $voter;
+        }
+
+        return new Matcher($voters);
+    }
+
+    private function wire(mixed $alias, Container $container): mixed
+    {
+        return match (true) {
+            \is_string($alias) => $container->make($alias),
+            $alias instanceof Autowire => $alias->resolve($container),
+            default => $alias
+        };
     }
 }

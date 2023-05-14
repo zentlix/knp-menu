@@ -14,6 +14,7 @@ use Knp\Menu\Renderer\RendererProviderInterface;
 use Knp\Menu\Twig\MenuExtension;
 use Spiral\Boot\DirectoriesInterface;
 use Spiral\KnpMenu\Config\KnpMenuConfig;
+use Spiral\KnpMenu\Matcher\Voter\RouteVoter;
 use Spiral\KnpMenu\MenuRegistry;
 use Spiral\KnpMenu\Renderer\SpiralRenderer;
 use Spiral\KnpMenu\Tests\Functional\TestCase;
@@ -77,7 +78,10 @@ final class KnpMenuBootloaderTest extends TestCase
         $this->assertConfigMatches(KnpMenuConfig::CONFIG, [
             'template' => 'knpMenu:knp_menu',
             'template_options' => [],
-            'menus' => []
+            'menus' => [],
+            'voters' => [
+                RouteVoter::class,
+            ]
         ]);
     }
 
