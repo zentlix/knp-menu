@@ -21,6 +21,10 @@ final class RoutingExtension implements ExtensionInterface
             $params = $options['routeParameters'] ?? [];
 
             $options['uri'] = (string) $this->router->uri($options['route'], $params);
+
+            // adding the item route to the extras for the RouteVoter
+            $options['extras']['route'] = $options['route'];
+            $options['extras']['routeParameters'] = $params;
         }
 
         return $options;

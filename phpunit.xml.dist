@@ -1,37 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
-         backupGlobals="false"
-         colors="true"
-         verbose="true"
-         bootstrap="./vendor/autoload.php"
-         failOnRisky="true"
-         failOnWarning="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         stopOnFailure="false"
-         executionOrder="random"
-         resolveDependencies="true"
->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd" backupGlobals="false" colors="true" bootstrap="./vendor/autoload.php" failOnRisky="true" failOnWarning="true" stopOnFailure="false" executionOrder="random" resolveDependencies="true" cacheDirectory=".phpunit.cache">
     <php>
-        <ini name="display_errors" value="On" />
-        <ini name="error_reporting" value="-1" />
-        <ini name="memory_limit" value="-1" />
+        <ini name="display_errors" value="On"/>
+        <ini name="error_reporting" value="-1"/>
+        <ini name="memory_limit" value="-1"/>
     </php>
-
+    <coverage>
+        <report>
+            <html outputDirectory="build/coverage"/>
+            <text outputFile="build/coverage.txt"/>
+            <clover outputFile="build/logs/clover.xml"/>
+        </report>
+    </coverage>
+    <logging>
+        <junit outputFile="build/report.junit.xml"/>
+    </logging>
     <testsuites>
         <testsuite name="Knp Menu Test Suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
-
-    <coverage>
+    <source>
         <include>
             <directory>src</directory>
         </include>
         <exclude>
             <directory>./tests</directory>
         </exclude>
-    </coverage>
+    </source>
 </phpunit>
